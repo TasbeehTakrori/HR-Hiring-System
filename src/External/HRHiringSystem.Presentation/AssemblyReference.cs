@@ -1,6 +1,6 @@
 ﻿namespace HRHiringSystem.Presentation;
 
-public class Class1
+public class AssemblyReference
 {
 
 }

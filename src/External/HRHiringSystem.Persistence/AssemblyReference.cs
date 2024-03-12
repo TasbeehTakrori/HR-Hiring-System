@@ -1,6 +1,6 @@
 ﻿namespace HRHiringSystem.Persistence;
 
-public class Class1
+public class AssemblyReference
 {
 
 }
