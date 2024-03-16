@@ -3,7 +3,7 @@ using HRHiringSystem.Domain.Entities;
 
 namespace HRHiringSystem.Domain.Abstractions.IRepositories;
 public interface IRepository<TEntity, TModel>
-    where TEntity : BaseEntity
+    where TEntity : IBaseEntity
 {
     Task<(IEnumerable<TModel>, PaginationMetadata)> GetAllAsync(int pageNumber, int pageSize);
     Task<TModel?> GetByIdAsync(int id);
