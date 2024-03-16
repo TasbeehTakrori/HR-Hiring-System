@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HRHiringSystem.Persistence.Repositories;
 public class Repository<TEntity, TModel> : IRepository<TEntity, TModel>
-    where TEntity : BaseEntity
+    where TEntity : class, IBaseEntity, ISoftDelete
     where TModel : class
 {
     protected readonly DbSet<TEntity> _entities;
