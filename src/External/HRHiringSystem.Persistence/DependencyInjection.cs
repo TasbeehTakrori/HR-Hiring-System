@@ -21,7 +21,7 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString);
         });
 
-        services.AddIdentityCore<UserEntity>(options => options.SignIn.RequireConfirmedAccount = true)
+        services.AddIdentityCore<UserEntity>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

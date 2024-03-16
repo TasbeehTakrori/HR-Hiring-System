@@ -15,30 +15,52 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, IdentityRole, 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        ConfigureIdentityTables(modelBuilder);
-        ConfigureSoftDeleteEntities(modelBuilder);
+
+        ConfigureIdentityRelationships(modelBuilder);
+        ConfigureSoftDeleteFilteringAndIndexes(modelBuilder);
+        ConfigureTimestampsAsRowVersion(modelBuilder);
     }
 
-    private void ConfigureSoftDeleteEntities(ModelBuilder modelBuilder)
+    private void ConfigureSoftDeleteFilteringAndIndexes(ModelBuilder modelBuilder)
     {
-        var softDeleteEntities = typeof(ISoftDelete).Assembly.GetTypes()
+        var applicationEntities = typeof(ISoftDelete).Assembly.GetTypes()
                   .Where(type => typeof(ISoftDelete)
                                   .IsAssignableFrom(type)
                                   && type.IsClass
                                   && !type.IsAbstract);
 
-        foreach (var softDeleteEntity in softDeleteEntities)
+        foreach (var entity in applicationEntities)
         {
-            modelBuilder.Entity(softDeleteEntity).HasQueryFilter(
-                  GenerateQueryFilterLambda(softDeleteEntity));
+            modelBuilder.Entity(entity).HasQueryFilter(
+                  GenerateQueryFilterLambda(entity));
 
-            modelBuilder.Entity(softDeleteEntity)
+            modelBuilder.Entity(entity)
                .HasIndex("IsDeleted")
                .HasFilter("IsDeleted = 0");
         }
     }
 
-    private static void ConfigureIdentityTables(ModelBuilder modelBuilder)
+    private void ConfigureTimestampsAsRowVersion(ModelBuilder modelBuilder)
+    {
+        var applicationEntities = typeof(IBaseEntity).Assembly.GetTypes()
+                  .Where(type => typeof(IBaseEntity)
+                                  .IsAssignableFrom(type)
+                                  && type.IsClass
+                                  && !type.IsAbstract);
+
+        foreach (var entity in applicationEntities)
+        {
+            var timestampProperty = entity.GetProperty("Timestamp");
+            if (timestampProperty != null && timestampProperty.PropertyType == typeof(byte[]))
+            {
+                modelBuilder.Entity(entity)
+                    .Property("Timestamp")
+                    .IsRowVersion();
+            }
+        }
+    }
+
+    private static void ConfigureIdentityRelationships(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserEntity>()
             .HasMany(u => u.Roles)
