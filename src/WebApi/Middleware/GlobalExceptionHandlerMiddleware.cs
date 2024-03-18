@@ -1,5 +1,5 @@
 ﻿using HRHiringSystem.Application.ExceptionHandling;
-using HRHiringSystem.Domain.Exceptions;
+using HRHiringSystem.Domain.Exceptions.Base;
 
 namespace WebApi.Middleware;
 

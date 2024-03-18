@@ -1,5 +1,5 @@
 using HRHiringSystem.Persistence;
-using Microsoft.AspNetCore.Diagnostics;
+using WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

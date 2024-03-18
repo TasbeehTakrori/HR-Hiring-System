@@ -8,5 +8,6 @@ internal class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
     public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
         builder.ToTable("Users");
+        builder.Property(u => u.UserName).HasColumnName("Name");
     }
 }
