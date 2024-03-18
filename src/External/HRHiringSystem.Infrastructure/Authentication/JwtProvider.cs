@@ -14,7 +14,7 @@ public class JwtProvider : IJwtProvider
     private readonly int _expiresMinutes;
     private readonly byte[] _key;
 
-    public JwtProvider(IOptions<JwtSettings> jwtSettingsOptions)
+    public JwtProvider(IOptionsSnapshot<JwtSettings> jwtSettingsOptions)
     {
         var jwtSettings = jwtSettingsOptions.Value;
         _issuer = jwtSettings.Issuer;
@@ -23,14 +23,21 @@ public class JwtProvider : IJwtProvider
         _key = Encoding.ASCII.GetBytes(jwtSettings.Key);
     }
 
-    public string Generate(string userName)
+    public string Generate(string userName, IEnumerable<string>? roles)
     {
+        var claims = new List<Claim>
+        {
+            new Claim(JwtRegisteredClaimNames.Name, userName),
+        };
+
+        foreach (var role in roles)
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Name, userName),
-            }),
+            Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddMinutes(_expiresMinutes),
             Issuer = _issuer,
             Audience = _audience,

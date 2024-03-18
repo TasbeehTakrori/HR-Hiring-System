@@ -3,7 +3,7 @@ using HRHiringSystem.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace HRHiringSystem.Application.Features.Users.Commands.CreateUser;
-internal class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 {
     private readonly UserManager<UserEntity> _userManager;
     public CreateUserCommandValidator(UserManager<UserEntity> userManager)

@@ -1,25 +1,14 @@
 ﻿using HRHiringSystem.Domain.Entities;
-using HRHiringSystem.Persistence.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HRHiringSystem.Persistence;
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPersistenceServices(this IServiceCollection services,
-           IConfiguration configuration)
+    public static IServiceCollection AddPersistenceServices(this IServiceCollection services)
     {
-
-        services.AddSingleton<IConnectionStringProvider, ConnectionStringProvider>();
-
-        services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
-        {
-            var connectionStringProvider = serviceProvider.GetRequiredService<IConnectionStringProvider>();
-            var connectionString = connectionStringProvider.GetConnectionString();
-            options.UseSqlServer(connectionString);
-        });
+        services.AddDbContext<ApplicationDbContext>(options =>
+             options.UseSqlServer(Environment.GetEnvironmentVariable("HRHiringSystem_DATABASE_CONNECTION_STRING")));
 
         services.AddIdentityCore<UserEntity>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();

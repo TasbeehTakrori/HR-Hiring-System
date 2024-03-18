@@ -2,5 +2,5 @@
 
 public interface IJwtProvider
 {
-    string Generate(string userName);
+    string Generate(string userName, IEnumerable<string>? roles);
 }

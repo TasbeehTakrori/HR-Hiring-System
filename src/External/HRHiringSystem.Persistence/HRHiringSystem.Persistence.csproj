@@ -19,11 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\HRHiringSystem.Domain\HRHiringSystem.Domain.csproj" />
+    <Folder Include="Profiles\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Profiles\" />
+    <ProjectReference Include="..\..\Core\HRHiringSystem.Application\HRHiringSystem.Application.csproj" />
   </ItemGroup>
 
 </Project>
