@@ -1,18 +1,15 @@
 using FluentAssertions;
 using NetArchTest.Rules;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace HRHiringSystem.Architecture.Tests;
 
 public class CleanArchitectureTests
 {
-    private const string DomainNamespace = "HRHiringSystem.Domain";
     private const string ApplicationNamespace = "HRHiringSystem.Application";
     private const string InfrastructureNamespace = "HRHiringSystem.Infrastructure";
     private const string PresentationNamespace = "HRHiringSystem.Presentation";
     private const string PersistenceNamespace = "HRHiringSystem.Persistence";
     private const string WebApiNamespace = "HRHiringSystem.WebApi";
-
 
     [Fact]
     public void Domain_Should_Not_HaveDependencyOnOtherProjects()
