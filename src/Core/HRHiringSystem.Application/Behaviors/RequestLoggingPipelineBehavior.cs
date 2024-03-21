@@ -1,5 +1,4 @@
 ﻿using MediatR;
-
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -48,6 +47,5 @@ internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>(
         }
 
         return response;
-
     }
 }
