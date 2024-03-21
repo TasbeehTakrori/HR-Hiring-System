@@ -2,6 +2,7 @@
 using HRHiringSystem.Persistence.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace HRHiringSystem.Persistence;
 public class ApplicationDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
@@ -9,6 +10,15 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, RoleEntity, st
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.UseLoggerFactory(
+            LoggerFactory
+            .Create(builder => builder.AddConsole()
+            .SetMinimumLevel(LogLevel.Warning)));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

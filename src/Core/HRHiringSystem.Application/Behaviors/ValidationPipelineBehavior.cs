@@ -1,15 +1,16 @@
 ﻿using FluentValidation;
 using HRHiringSystem.Application.Abstractions.Messaging;
+using HRHiringSystem.Domain.Exceptions.Base;
 using MediatR;
 
 namespace HRHiringSystem.Application.Behaviors;
 
-public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public sealed class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : class, ICommand<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-    public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;
+    public ValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
@@ -25,12 +26,11 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
 
         var failures = validationResults
             .SelectMany(r => r.Errors)
-            .Where(f => f != null).ToList();
+            .Select(e => new { Property = e.PropertyName, Message = e.ErrorMessage })
+            .ToDictionary(error => error.Property, error => new[] { error.Message });
 
         if (failures.Any())
-        {
-            throw new ValidationException(failures);
-        }
+            throw new BadRequestException(failures);
 
         return await next();
     }

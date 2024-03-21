@@ -12,7 +12,7 @@ public class GlobalExceptionHandlerMiddleware
         {
             { typeof(NotFoundException), new NotFoundExceptionHandler() },
             { typeof(Exception), new UnhandledExceptionHandler() },
-            { typeof(FluentValidation.ValidationException), new ValidationExceptionHandler() }
+            { typeof(BadRequestException), new BadRequestExceptionHandler() }
         };
 
     public GlobalExceptionHandlerMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlerMiddleware> logger)
@@ -27,19 +27,21 @@ public class GlobalExceptionHandlerMiddleware
         {
             await _next(context);
         }
-        catch (FluentValidation.ValidationException ex)
+        catch (BadRequestException ex)
         {
-            await _exceptionHandlers[typeof(FluentValidation.ValidationException)]
+            await _exceptionHandlers[typeof(BadRequestException)]
                 .HandleAsync(context, ex);
         }
         catch (NotFoundException ex)
         {
-            await _exceptionHandlers[typeof(NotFoundException)].HandleAsync(context, ex);
+            await _exceptionHandlers[typeof(NotFoundException)]
+                .HandleAsync(context, ex);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An unhandled exception occurred: {Message}", ex.Message);
-            await _exceptionHandlers[typeof(Exception)].HandleAsync(context, ex);
+            await _exceptionHandlers[typeof(Exception)]
+                .HandleAsync(context, ex);
         }
     }
 }

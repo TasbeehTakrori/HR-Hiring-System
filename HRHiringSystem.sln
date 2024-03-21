@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D3D6D6DE-E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRHiringSystem.Architecture.Tests", "test\HRHiringSystem.Architecture.Tests\HRHiringSystem.Architecture.Tests.csproj", "{0B7A572D-A816-42E4-9837-1871FDA6DE7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRHiringSystem.Application.Tests", "test\HRHiringSystem.Application.Tests\HRHiringSystem.Application.Tests.csproj", "{C5BE3268-2BC2-430E-B1F1-454F160B981C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{0B7A572D-A816-42E4-9837-1871FDA6DE7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B7A572D-A816-42E4-9837-1871FDA6DE7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B7A572D-A816-42E4-9837-1871FDA6DE7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5BE3268-2BC2-430E-B1F1-454F160B981C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5BE3268-2BC2-430E-B1F1-454F160B981C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5BE3268-2BC2-430E-B1F1-454F160B981C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5BE3268-2BC2-430E-B1F1-454F160B981C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{86D76507-D1F2-4F23-B586-2E2273C4F172} = {B9D6D12D-3DD7-49AA-BC5F-C90125E80681}
@@ -73,5 +79,6 @@ Global
 		{C243358C-7FEB-4DB1-AF4B-D17D5C3B6B16} = {4DA71268-FDCA-483B-AA56-355F012BA2F5}
 		{CFEE2D1B-97E4-4E2B-98A4-20A7AABBF14F} = {B9D6D12D-3DD7-49AA-BC5F-C90125E80681}
 		{0B7A572D-A816-42E4-9837-1871FDA6DE7F} = {D3D6D6DE-E306-4896-A832-B3682C8DDDB4}
+		{C5BE3268-2BC2-430E-B1F1-454F160B981C} = {D3D6D6DE-E306-4896-A832-B3682C8DDDB4}
 	EndGlobalSection
 EndGlobal

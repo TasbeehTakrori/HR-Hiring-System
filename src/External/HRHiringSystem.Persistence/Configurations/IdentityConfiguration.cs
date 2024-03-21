@@ -9,6 +9,7 @@ internal class IdentityConfiguration
         modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
 
         modelBuilder.Ignore<IdentityUserClaim<string>>();
+        modelBuilder.Ignore<IdentityUserToken<string>>();
         modelBuilder.Ignore<IdentityUserLogin<string>>();
         modelBuilder.Ignore<IdentityUserToken<string>>();
         modelBuilder.Ignore<IdentityRoleClaim<string>>();
