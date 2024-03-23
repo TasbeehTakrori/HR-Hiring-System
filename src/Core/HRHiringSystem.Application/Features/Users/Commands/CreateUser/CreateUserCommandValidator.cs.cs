@@ -4,9 +4,11 @@ using HRHiringSystem.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace HRHiringSystem.Application.Features.Users.Commands.CreateUser;
-public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+
+internal sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 {
     private readonly UserManager<UserEntity> _userManager;
+
     public CreateUserCommandValidator(UserManager<UserEntity> userManager)
     {
         _userManager = userManager;
@@ -15,7 +17,8 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
             .NotEmpty()
             .WithMessage("Name is required.");
 
-        RuleFor(u => u.Password).NotEmpty()
+        RuleFor(u => u.Password)
+            .NotEmpty()
             .WithMessage("Password is required.");
 
         RuleFor(u => u.Email)
@@ -26,8 +29,8 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
             .MustAsync(BeUniqueEmail)
             .WithMessage("Email already exists");
 
-
-        RuleFor(u => u.PhoneNumber).NotEmpty()
+        RuleFor(u => u.PhoneNumber)
+            .NotEmpty()
             .WithMessage("Phone number is required.")
             .Matches(RegexPatterns.PhoneRegex)
             .WithMessage("Phone Number is not in a valid format.");
@@ -35,7 +38,6 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
 
     private async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)
     {
-        var existingUser = await _userManager.FindByEmailAsync(email);
-        return existingUser == null;
+        return await _userManager.FindByEmailAsync(email ?? string.Empty) == null;
     }
 }
