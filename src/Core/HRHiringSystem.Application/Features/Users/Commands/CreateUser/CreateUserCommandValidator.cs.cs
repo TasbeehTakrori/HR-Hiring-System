@@ -12,7 +12,7 @@ internal sealed class CreateUserCommandValidator : AbstractValidator<CreateUserC
     public CreateUserCommandValidator(UserManager<UserEntity> userManager)
     {
         _userManager = userManager;
-
+        // TODO => Check the email domain
         RuleFor(u => u.Name)
             .NotEmpty()
             .WithMessage("Name is required.");
@@ -34,6 +34,22 @@ internal sealed class CreateUserCommandValidator : AbstractValidator<CreateUserC
             .WithMessage("Phone number is required.")
             .Matches(RegexPatterns.PhoneRegex)
             .WithMessage("Phone Number is not in a valid format.");
+
+        RuleFor(u => u.Role)
+            .NotEmpty()
+            .WithMessage("UserRole is required.");
+
+        RuleFor(u => u.Role)
+           .Must(BeValidRole)
+           .When(u => !string.IsNullOrEmpty(u.Role))
+           .WithMessage("UserRole is Invalid.");
+    }
+
+    private bool BeValidRole(string role)
+    {
+        var validRoles = new[] { Roles.Recruiter, Roles.Interviewer, Roles.HRManager };
+
+        return validRoles.Contains(role);
     }
 
     private async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)

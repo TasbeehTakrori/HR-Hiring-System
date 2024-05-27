@@ -4,6 +4,7 @@ using HRHiringSystem.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRHiringSystem.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240323163750_RoleSeeding")]
+    partial class RoleSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace HRHiringSystem.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d5601e83-25d3-4e8c-883a-bc4d897e012e",
+                            Id = "79ccb11b-43f0-4aa4-8906-40b1293678f0",
                             Name = "Recruiter",
                             NormalizedName = "RECRUITER"
                         },
                         new
                         {
-                            Id = "717c683e-6a85-43a5-8bc6-be308b51fe2d",
+                            Id = "64ae102e-9a2b-449f-821c-136c2fa20bec",
                             Name = "Interviewer",
                             NormalizedName = "INTERVIEWER"
                         },
                         new
                         {
-                            Id = "5f4d4239-dec4-4090-8d2e-cebf29572972",
+                            Id = "706d9291-f1f8-4dcb-8588-b838c162f6fd",
                             Name = "HRManager",
                             NormalizedName = "HRMANAGER"
                         });
@@ -79,10 +82,6 @@ namespace HRHiringSystem.Persistence.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -115,6 +114,9 @@ namespace HRHiringSystem.Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RoleEntityId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -123,7 +125,8 @@ namespace HRHiringSystem.Persistence.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .HasColumnName("Name");
 
                     b.HasKey("Id");
 
@@ -134,6 +137,8 @@ namespace HRHiringSystem.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("RoleEntityId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -146,11 +151,23 @@ namespace HRHiringSystem.Persistence.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("UserEntityId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRole", (string)null);
+                    b.HasIndex("UserEntityId");
+
+                    b.ToTable("UserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("HRHiringSystem.Domain.Entities.UserEntity", b =>
+                {
+                    b.HasOne("HRHiringSystem.Domain.Entities.RoleEntity", null)
+                        .WithMany("Users")
+                        .HasForeignKey("RoleEntityId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -162,10 +179,24 @@ namespace HRHiringSystem.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("HRHiringSystem.Domain.Entities.UserEntity", null)
+                        .WithMany("Roles")
+                        .HasForeignKey("UserEntityId");
+
+                    b.HasOne("HRHiringSystem.Domain.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HRHiringSystem.Domain.Entities.RoleEntity", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("HRHiringSystem.Domain.Entities.UserEntity", b =>
+                {
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,14 +16,19 @@ internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserComma
     {
         var user = new UserEntity
         {
-            UserName = request.Email,
-            Email = request.Email
+            DisplayName = request.Name,
+            UserName = request.Email.Split("@")[0],
+            Email = request.Email,
         };
 
-        var result = await _userManager.CreateAsync(user);
+        var result = await _userManager.CreateAsync(user, request.Password);
 
         if (result.Succeeded)
+        {
+            await _userManager.AddToRoleAsync(user, request.Role);
+            //TODO : Send email to user to resetPassword
             return user.Id;
+        }
         else
             throw new UserRegistrationFailedException(result.Errors);
     }

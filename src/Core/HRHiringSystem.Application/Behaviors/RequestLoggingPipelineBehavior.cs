@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -30,7 +29,6 @@ internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>(
         var stopwatch = Stopwatch.StartNew();
         try
         {
-
             logger.LogInformation($"[PROPS] {requestNameWithGuid} {JsonSerializer.Serialize(request)}");
             response = await next();
         }
@@ -43,7 +41,7 @@ internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>(
         {
             stopwatch.Stop();
             logger.LogInformation(
-                $"[END] {requestNameWithGuid}; Execution time={stopwatch.ElapsedMilliseconds}ms");
+                $"[END] {requestNameWithGuid}, Execution time={stopwatch.ElapsedMilliseconds}ms");
         }
 
         return response;

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HRHiringSystem.Presentation.Controllers;
 
 [Route("api/users")]
+[ApiController]
 public class UsersController : ControllerBase
 {
     private readonly IMediator _mediator;

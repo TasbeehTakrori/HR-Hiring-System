@@ -1,4 +1,5 @@
 ﻿using HRHiringSystem.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,9 @@ public static class DependencyInjection
              options.UseSqlServer(Environment.GetEnvironmentVariable("HRHiringSystem_DATABASE_CONNECTION_STRING")));
 
         services.AddIdentityCore<UserEntity>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddRoles<RoleEntity>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

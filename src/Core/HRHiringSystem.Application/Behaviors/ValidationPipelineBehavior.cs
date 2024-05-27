@@ -27,7 +27,8 @@ public sealed class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineB
         var failures = validationResults
             .SelectMany(r => r.Errors)
             .Select(e => new { Property = e.PropertyName, Message = e.ErrorMessage })
-            .ToDictionary(error => error.Property, error => new[] { error.Message });
+            .GroupBy(e => e.Property)
+            .ToDictionary(group => group.Key, group => group.Select(g => g.Message).ToArray());
 
         if (failures.Any())
             throw new BadRequestException(failures);

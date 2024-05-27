@@ -39,6 +39,7 @@ public partial class CreateUserCommandHandlerTests
     {
         userManagerMock.Setup(m => m.CreateAsync(It.IsAny<UserEntity>()))
             .ReturnsAsync(IdentityResult.Failed([]));
+        //ToUpdate
         CreateUserCommandHandler sut = new CreateUserCommandHandler(userManagerMock.Object);
 
         // Act

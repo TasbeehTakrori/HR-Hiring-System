@@ -4,6 +4,7 @@ using HRHiringSystem.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRHiringSystem.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240522111203_RollbackChangeUserNameColumn")]
+    partial class RollbackChangeUserNameColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,19 +54,19 @@ namespace HRHiringSystem.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d5601e83-25d3-4e8c-883a-bc4d897e012e",
+                            Id = "9bdb22f2-beeb-40ae-8f1c-f3327a14a9d8",
                             Name = "Recruiter",
                             NormalizedName = "RECRUITER"
                         },
                         new
                         {
-                            Id = "717c683e-6a85-43a5-8bc6-be308b51fe2d",
+                            Id = "eb3e7889-45a2-48c3-876b-26428b0678d6",
                             Name = "Interviewer",
                             NormalizedName = "INTERVIEWER"
                         },
                         new
                         {
-                            Id = "5f4d4239-dec4-4090-8d2e-cebf29572972",
+                            Id = "1c4696fb-2563-4eb3-b8a5-9ffca00d49e8",
                             Name = "HRManager",
                             NormalizedName = "HRMANAGER"
                         });
@@ -79,10 +82,6 @@ namespace HRHiringSystem.Persistence.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")

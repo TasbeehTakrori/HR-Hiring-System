@@ -1,5 +1,6 @@
 ﻿using HRHiringSystem.Domain.Entities;
 using HRHiringSystem.Persistence.Configurations;
+using HRHiringSystem.Persistence.Seeding;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -30,5 +31,7 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity, RoleEntity, st
         IdentityConfiguration.Configure(modelBuilder);
         SoftDeleteConfiguration.Configure(modelBuilder);
         ConcurrencyConfiguration.Configure(modelBuilder);
+
+        DbSeeder.SeedRoles(modelBuilder);
     }
 }
