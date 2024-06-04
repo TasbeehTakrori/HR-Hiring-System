@@ -17,6 +17,7 @@ public class EmailSender : IEmailSender
     public EmailSender(IOptions<EmailSettings> emailSettings)
     {
         _emailSettings = emailSettings.Value;
+        _emailSettings.Password = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
     }
 
     public async Task SendEmailAsync(string email, string subject, string message)

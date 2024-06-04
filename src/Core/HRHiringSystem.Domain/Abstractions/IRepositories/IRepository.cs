@@ -1,5 +1,5 @@
 ﻿using HRHiringSystem.Domain.Common;
-using HRHiringSystem.Domain.Entities;
+using HRHiringSystem.Domain.Primitive;
 
 namespace HRHiringSystem.Domain.Abstractions.IRepositories;
 public interface IRepository<TEntity, TModel>

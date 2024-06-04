@@ -34,20 +34,6 @@ public class AuthenticationController : ControllerBase
         var command = _mapper.Map<ResetPasswordCommand>(request);
         await _mediator.Send(command);
 
-        //split it to func
-        /*    if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token) || model == null || string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.ConfirmPassword))
-            {
-                return BadRequest("Email, token, password, and confirmation password are required.");
-            }
-
-            if (model.Password != model.ConfirmPassword)
-            {
-                return BadRequest("Password and confirmation password do not match.");
-            }
-
-        
-    */
-        //return BadRequest(result.Errors);
         return Ok();
     }
 

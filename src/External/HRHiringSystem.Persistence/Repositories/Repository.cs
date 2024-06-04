@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HRHiringSystem.Domain.Abstractions.IRepositories;
 using HRHiringSystem.Domain.Common;
-using HRHiringSystem.Domain.Entities;
+using HRHiringSystem.Domain.Primitive;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRHiringSystem.Persistence.Repositories;
