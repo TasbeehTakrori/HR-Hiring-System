@@ -6,7 +6,7 @@ internal class UserProfile : Profile
 {
     public UserProfile()
     {
-        CreateMap<CreateUserCommand, CreateUserRequest>()
+        CreateMap<RegisterUserCommand, CreateUserRequest>()
                .ReverseMap();
     }
 }

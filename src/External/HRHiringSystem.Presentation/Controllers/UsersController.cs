@@ -23,7 +23,7 @@ public class UsersController : ControllerBase
         [FromBody] CreateUserRequest request,
         CancellationToken cancellationToken)
     {
-        var command = _mapper.Map<CreateUserCommand>(request);
+        var command = _mapper.Map<RegisterUserCommand>(request);
         var userId = await _mediator.Send(command);
 
         return CreatedAtAction(nameof(GetUser), new { userId }, userId);

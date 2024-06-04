@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HRHiringSystem.Application.Features.Users.Commands.CreateUser;
 
-internal sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
     private readonly UserManager<UserEntity> _userManager;
 
-    public CreateUserCommandValidator(UserManager<UserEntity> userManager)
+    public RegisterUserCommandValidator(UserManager<UserEntity> userManager)
     {
         _userManager = userManager;
         // TODO => Check the email domain

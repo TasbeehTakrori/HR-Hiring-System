@@ -1,6 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using FluentAssertions;
-using HRHiringSystem.Application.Features.Users.Commands.CreateUser;
+using HRHiringSystem.Application.Features.Authentication.Commands.RegisterUser;
 using HRHiringSystem.Application.Tests.Attributes;
 using HRHiringSystem.Domain.Entities;
 using HRHiringSystem.Domain.Exceptions;
@@ -16,12 +16,12 @@ public partial class CreateUserCommandHandlerTests
     [AutoMoqData]
     public async Task Handle_ValidUser_ReturnsUserId(
         [Frozen] Mock<FakeUserManager> userManagerMock,
-        CreateUserCommand createUserCommand)
+        RegisterUserCommand createUserCommand)
     {
         // Arrange
         userManagerMock.Setup(m => m.CreateAsync(It.IsAny<UserEntity>()))
             .ReturnsAsync(IdentityResult.Success);
-        CreateUserCommandHandler sut = new CreateUserCommandHandler(userManagerMock.Object);
+        RegisterUserCommandHandler sut = new RegisterUserCommandHandler(userManagerMock.Object);
 
         // Act
         var result = await sut.Handle(createUserCommand, CancellationToken.None);
@@ -35,12 +35,12 @@ public partial class CreateUserCommandHandlerTests
     [AutoMoqData]
     public async Task Handle_InvalidUser_ThrowsException(
          [Frozen] Mock<FakeUserManager> userManagerMock,
-        CreateUserCommand createUserCommand)
+        RegisterUserCommand createUserCommand)
     {
         userManagerMock.Setup(m => m.CreateAsync(It.IsAny<UserEntity>()))
             .ReturnsAsync(IdentityResult.Failed([]));
         //ToUpdate
-        CreateUserCommandHandler sut = new CreateUserCommandHandler(userManagerMock.Object);
+        RegisterUserCommandHandler sut = new RegisterUserCommandHandler(userManagerMock.Object);
 
         // Act
         var action = async () => await sut.Handle(createUserCommand, It.IsAny<CancellationToken>());
