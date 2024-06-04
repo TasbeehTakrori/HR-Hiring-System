@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
-using HRHiringSystem.Application.Features;
 using HRHiringSystem.Application.Features.Authentication.Commands.ForgotPassword;
 using HRHiringSystem.Application.Features.Authentication.Commands.ResetPassword;
-using HRHiringSystem.Application.Features.Users.Commands.CreateUser;
-using HRHiringSystem.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 
 namespace HRHiringSystem.Presentation.Controllers;
 

@@ -1,16 +1,11 @@
-﻿namespace HRHiringSystem.Application.Features;
+﻿using HRHiringSystem.Application.Abstractions;
+using HRHiringSystem.Infrastructure.Configurations;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
 
-//TODO: namespace HRHiringSystem.Application.Features???;
-
-public interface IEmailSender
-{
-    Task SendEmailAsync(string email, string subject, string message);
-}
-
-public class EmailSender : IEmailSender
+namespace HRHiringSystem.Infrastructure.Services;
+internal class EmailSender : IEmailSender
 {
     private readonly EmailSettings _emailSettings;
 
@@ -20,7 +15,7 @@ public class EmailSender : IEmailSender
         _emailSettings.Password = Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
     }
 
-    public async Task SendEmailAsync(string email, string subject, string message)
+    public async Task SendEmailAsync(string email, string subject, string body)
     {
         var smtpClient = new SmtpClient
         {
@@ -34,7 +29,7 @@ public class EmailSender : IEmailSender
         {
             From = new MailAddress(_emailSettings.SenderEmail, _emailSettings.SenderName),
             Subject = subject,
-            Body = message,
+            Body = body,
             IsBodyHtml = true
         };
 
@@ -42,14 +37,4 @@ public class EmailSender : IEmailSender
 
         await smtpClient.SendMailAsync(mailMessage);
     }
-}
-
-public class EmailSettings
-{
-    public string Host { get; set; }
-    public int Port { get; set; }
-    public string UserName { get; set; }
-    public string Password { get; set; }
-    public string SenderName { get; set; }
-    public string SenderEmail { get; set; }
 }

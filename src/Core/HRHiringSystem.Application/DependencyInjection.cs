@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using HRHiringSystem.Application.Behaviors;
-using HRHiringSystem.Application.Features.Users.Commands.CreateUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -14,11 +13,10 @@ public static class DependencyInjection
         services.AddMediatR(configuration =>
             configuration.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
 
-
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestLoggingPipelineBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
         services.AddValidatorsFromAssembly(typeof(AssemblyReference).Assembly, includeInternalTypes: true);
-        
+
         services.AddTransient<IUrlHelperFactory, UrlHelperFactory>();
         services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
 

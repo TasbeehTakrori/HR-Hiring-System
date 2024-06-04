@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HRHiringSystem.Domain.Entities;
+namespace HRHiringSystem.Domain.Primitive;
 public interface IBaseEntity
 {
     public int Id { get; set; }

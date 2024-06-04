@@ -3,7 +3,7 @@ using HRHiringSystem.Domain.Constants;
 using HRHiringSystem.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace HRHiringSystem.Application.Features.Users.Commands.CreateUser;
+namespace HRHiringSystem.Application.Features.Authentication.Commands.RegisterUser;
 
 internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {

@@ -1,5 +1,7 @@
-﻿using HRHiringSystem.Application.Abstractions.Messaging;
+﻿using HRHiringSystem.Application.Abstractions;
+using HRHiringSystem.Application.Abstractions.Messaging;
 using HRHiringSystem.Domain.Entities;
+using HRHiringSystem.Domain.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -31,17 +33,28 @@ internal sealed class ForgotPasswordHandler : ICommandHandler<ForgotPasswordComm
         if (user == null)
             return true;
 
-        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-        var resetLink = _urlHelper.Action("ResetPassword", "Authentication",
-            new { token, email = user.Email },
-            _urlHelper.ActionContext.HttpContext.Request.Scheme);
+        var passwordResetLink = GeneratePasswordResetLink(user.Email!, resetToken);
+
 
         await _emailSender.SendEmailAsync(
-            user.Email,
+            user.Email!,
             "Reset Password",
-            $"Please reset your password by clicking here: {resetLink}");
+            $"Please reset your password by clicking here: {passwordResetLink}");
 
         return true;
+    }
+
+    private string GeneratePasswordResetLink(string userEmail, string token)
+    {
+        var passwordResetLink = _urlHelper.Action("ResetPassword", "Authentication",
+            new { token, email = userEmail },
+            _urlHelper.ActionContext.HttpContext.Request.Scheme);
+
+        if (passwordResetLink == null)
+            throw new ResetLinkGenerationException();
+
+        return passwordResetLink;
     }
 }

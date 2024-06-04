@@ -1,5 +1,7 @@
 ﻿using HRHiringSystem.Application.Abstractions;
 using HRHiringSystem.Infrastructure.Authentication;
+using HRHiringSystem.Infrastructure.Configurations;
+using HRHiringSystem.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,9 @@ public static class DependencyInjection
     {
         services.AddJwtAuthentication(configuration);
         services.AddScoped<IJwtProvider, JwtProvider>();
+
+        services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
+        services.AddTransient<IEmailSender, EmailSender>();
 
         return services;
     }

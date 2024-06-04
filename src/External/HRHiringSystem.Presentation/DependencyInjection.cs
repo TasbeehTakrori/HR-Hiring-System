@@ -9,10 +9,6 @@ public static class DependencyInjection
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-        services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
-        services.AddTransient<IEmailSender, EmailSender>();
-
-
         services.AddControllers();
         
         return services;

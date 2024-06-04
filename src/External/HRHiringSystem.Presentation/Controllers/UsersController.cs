@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HRHiringSystem.Application.Features.Users.Commands.CreateUser;
+using HRHiringSystem.Application.Features.Authentication.Commands.RegisterUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +20,7 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> CreateUser(
-        [FromBody] CreateUserRequest request,
+        [FromBody] RegisterUserRequest request,
         CancellationToken cancellationToken)
     {
         var command = _mapper.Map<RegisterUserCommand>(request);
